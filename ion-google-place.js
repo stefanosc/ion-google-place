@@ -20,7 +20,7 @@ angular.module('ion-google-place', [])
                     var searchEventTimeout = undefined;
 
                     var popupPromise = $ionicTemplateLoader.compile({
-                        templateUrl: 'lib/ion-google-place/ion-google-place-results-tpl.html',
+                        templateUrl: 'templates/ion-google-place-results-tpl.html',
                         scope: scope,
                         appendTo: $document[0].body
                     });
@@ -67,6 +67,7 @@ angular.module('ion-google-place', [])
                             // Update the model
                             ngModel.$setViewValue(details);
                             ngModel.$render();
+                            scope.doSearch(details);
                         }
 
                         function onReject(rejection) {
@@ -85,7 +86,7 @@ angular.module('ion-google-place', [])
                             if (searchEventTimeout) $timeout.cancel(searchEventTimeout);
                             searchEventTimeout = $timeout(function() {
                                 if(!query) return;
-                                if(query.length < 3) return;
+                                if(query.length < 2) return;
                                 // Are we using the Google Geocode service?
                                 if(attrs.service === "geocode") {
                                     geocoderService.geocode({ address: query }, function(results, status) {
